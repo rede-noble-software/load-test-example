@@ -140,3 +140,12 @@ This will start the locust test runner. Open the browser and go to `http://local
 1. insert http://localhost:8082 as HOST
 2. set number of user 50 - 100
 3. set ramp up 2
+
+
+### Metrics Dashboard
+
+![Metrics Dashboard](./metrics.png)
+
+### Locust Test Results
+
+![Locust Test Results](./locust.png)
