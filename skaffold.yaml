@@ -1,0 +1,38 @@
+apiVersion: skaffold/v3
+kind: Config
+build:
+  artifacts:
+  - image: web-app
+    context: .
+    docker:
+      dockerfile: Dockerfile
+portForward:
+- resourceType: service
+  resourceName: web-app-service
+  namespace: default
+  port: 80
+  localPort: 8082
+- resourceType: service
+  resourceName: postgresql-hl
+  namespace: databases
+  port: 5432
+- resourceType: service
+  resourceName: grafana
+  namespace: monitoring
+  port: 80
+  localPort: 3000
+manifests:
+  helm:
+    releases:
+    - name: postgresql
+      createNamespace: true
+      namespace: databases
+      chartPath: bitnami/postgresql
+      valuesFiles:
+      - deployment/db/values.yaml
+      skipBuildDependencies: true
+      wait: true
+      recreatePods: false
+
+  rawYaml:
+  - deployment/services.yaml

@@ -1,0 +1,21 @@
+apiVersion: skaffold/v3
+kind: Config
+manifests:
+  helm:
+    releases:
+    - name: prometheus
+      createNamespace: true
+      namespace: monitoring
+      chartPath: prometheus-community/prometheus
+      skipBuildDependencies: true
+    - name: grafana
+      # https://grafana.com/grafana/dashboards/6742-postgresql-statistics/ || Dashboard for PostgreSQL statistics
+      createNamespace: true
+      namespace: monitoring
+      chartPath: grafana/grafana
+      skipBuildDependencies: true
+      setValues:
+        adminPassword: admin
+        adminUser: admin
+  rawYaml:
+  - deployment/volumes.yaml

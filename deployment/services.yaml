@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      initContainers:
+      - name: wait-for-postgres
+        image: busybox
+        command: [ 'sh', '-c', 'until nc -z postgresql-hl.databases.svc.cluster.local 5432; do echo waiting for postgres; sleep 2; done;' ]
+      containers:
+      - name: web-app
+        image: web-app:latest
+        command:
+        - ./server/entrypoint.sh
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_HOST
+          value: postgresql-hl.databases.svc.cluster.local
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_NAME
+          value: tenant1
+        - name: DB_USER
+          value: user1
+        - name: DB_PASSWORD
+          value: llakcolnu
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-app-service
+spec:
+  selector:
+    app: web-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: ClusterIP

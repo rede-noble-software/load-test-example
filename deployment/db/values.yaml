@@ -1,0 +1,28 @@
+architecture: standalone
+auth:
+  username: user1
+  password: llakcolnu
+  database: tenant1
+  enablePostgresUser: true
+  postgresPassword: postgres
+
+primary:
+  persistence:
+    enabled: true
+    existingClaim: "pg-storage"
+    size: 1Gi
+
+resources:
+  requests:
+    memory: 1Gi
+    cpu: 1000m
+  limits:
+    memory: 4Gi
+    cpu: 4000m
+
+metrics:
+  enabled: true
+  readinessProbe:
+    initialDelaySeconds: 30
+    timeoutSeconds: 5
+    enabled: true
