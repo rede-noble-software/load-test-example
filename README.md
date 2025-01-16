@@ -149,3 +149,12 @@ This will start the locust test runner. Open the browser and go to `http://local
 ### Locust Test Results
 
 ![Locust Test Results](./locust.png)
+
+
+### Clean Up
+
+To clean up the project, run:
+
+```sh
+minikube delete
+```
