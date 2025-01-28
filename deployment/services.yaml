@@ -18,7 +18,7 @@ spec:
         command: [ 'sh', '-c', 'until nc -z postgresql-hl.databases.svc.cluster.local 5432; do echo waiting for postgres; sleep 2; done;' ]
       containers:
       - name: web-app
-        image: web-app:latest
+        image: 434470465372.dkr.ecr.ap-southeast-3.amazonaws.com/py-server:latest
         command:
         - ./server/entrypoint.sh
         ports:
@@ -34,6 +34,8 @@ spec:
           value: user1
         - name: DB_PASSWORD
           value: llakcolnu
+      imagePullSecrets:
+      - name: red-ecr-registry
 ---
 apiVersion: v1
 kind: Service

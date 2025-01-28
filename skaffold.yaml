@@ -1,8 +1,11 @@
 apiVersion: skaffold/v3
 kind: Config
 build:
+  local:
+    useBuildkit: true
+    push: true
   artifacts:
-  - image: web-app
+  - image: 434470465372.dkr.ecr.ap-southeast-3.amazonaws.com/py-server
     context: .
     docker:
       dockerfile: Dockerfile
